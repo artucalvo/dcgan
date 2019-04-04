@@ -1,6 +1,5 @@
 require 'image'
 require 'nn'
-local optnet = require 'optnet'
 torch.setdefaulttensortype('torch.FloatTensor')
 
 opt = {
@@ -80,19 +79,9 @@ else
    net:float()
 end
 
--- a function to setup double-buffering across the network.
--- this drastically reduces the memory needed to generate samples
-optnet.optimizeMemory(net, sample_input)
-
 local images = net:forward(noise)
 print('Images size: ', images:size(1)..' x '..images:size(2) ..' x '..images:size(3)..' x '..images:size(4))
 images:add(1):mul(0.5)
 print('Min, Max, Mean, Stdv', images:min(), images:max(), images:mean(), images:std())
 image.save(opt.name .. '.png', image.toDisplayTensor(images))
 print('Saved image to: ', opt.name .. '.png')
-
-if opt.display then
-    disp = require 'display'
-    disp.image(images)
-    print('Displayed image')
-end
