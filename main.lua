@@ -241,8 +241,6 @@ for epoch = 1, opt.niter do
       if counter % 10 == 0 and opt.display then
           local fake = netG:forward(noise_vis)
           local real = data:getBatch()
-          disp.image(fake, {win=opt.display_id, title=opt.name})
-          disp.image(real, {win=opt.display_id * 3, title=opt.name})
       end
 
       -- logging
